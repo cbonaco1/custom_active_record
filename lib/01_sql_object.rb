@@ -8,17 +8,33 @@ class SQLObject
 
     return @columns if @columns
 
+    #get the column names and put them in an array
     column_names = []
     results = DBConnection.execute2(<<-SQL)
       SELECT * FROM #{table_name}
     SQL
 
+    #convert each column_name to a symbol
     @columns = results.first.map { |column_name| column_name.to_sym  }
-
   end
 
   def self.finalize!
-    
+    #adds a setter and getter for each column
+    columns.each do |column_name|
+      #getter
+      define_method("#{column_name}") do
+        #read the value at attributes[column_name]
+        attributes[column_name]
+      end
+
+      #setter
+      #didnt have equal sign on before so it was using getter
+      define_method("#{column_name}=") do |arg|
+        #set the value at attributes[column_name]
+        attributes[column_name] = arg
+      end
+    end
+
   end
 
   def self.table_name=(table_name_in)
@@ -30,11 +46,19 @@ class SQLObject
  end
 
   def self.all
-    # ...
+    table = self.table_name
+    #only add args on to this if using quesiton mark
+    #Can only use question mark in WHERE (for values, not table/col names)
+    DBConnection.execute(<<-SQL)
+      SELECT
+        #{table}.*
+      FROM
+        #{table}
+    SQL
   end
 
   def self.parse_all(results)
-    # ...
+
   end
 
   def self.find(id)
@@ -42,11 +66,26 @@ class SQLObject
   end
 
   def initialize(params = {})
-    finalize!
+    params.each do |column_name, value|
+      column_name = column_name.to_sym
+
+      #self is the object we're trying to create?
+      unless self.class.columns.include?(column_name)
+        raise "unknown attribute '#{column_name}'"
+      end
+
+      #set attribute by calling setter using send
+      self.send("#{column_name}=", value)
+    end
   end
 
   def attributes
-    # ...
+    @attributes || @attributes = {}
+    # if @attributes
+    #   @attributes
+    # else
+    #   @attributes = {}
+    # end
   end
 
   def attribute_values
