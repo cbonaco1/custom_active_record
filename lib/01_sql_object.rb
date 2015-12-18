@@ -129,15 +129,6 @@ class SQLObject
     num_fields = self.class.columns.length
     fields = (["?"] * num_fields).join(", ")
 
-    #values = self.attribute_values.join(", ")
-
-    p table
-    p column_names
-    p num_fields
-    p fields
-    #p values
-
-    #SQL log?
     result = DBConnection.execute(<<-SQL, attribute_values)
       INSERT INTO
         #{table} (#{column_names})
@@ -150,21 +141,25 @@ class SQLObject
 
   def update
     #self is an instance of class
-    # table  = self.class.table_name
-    # column_list = self.class.columns.map{ |column| "#{column} = ?" }
-    # column_list = column_list.join(", ")
-    #
-    # result = DBConnection.execute(<<-SQL, *values)
-    #   UPDATE
-    #     #{table}
-    #   SET
-    #     #{column_list}
-    #   WHERE
-    #     #{table}.id = ?
-    # SQL
+    table  = self.class.table_name
+    column_list = self.class.columns.map{ |column| "#{column} = ?" }
+    column_list = column_list.join(", ")
+
+    update_query = <<-SQL
+    UPDATE
+      #{table}
+    SET
+      #{column_list}
+    WHERE
+      id = #{id}
+    SQL
+
+    puts update_query
+    p attribute_values
+    result = DBConnection.execute(update_query, attribute_values)
   end
 
   def save
-
+    self.class.find(self.id) ? update : insert
   end
 end
