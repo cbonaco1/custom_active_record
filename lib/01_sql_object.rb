@@ -49,16 +49,23 @@ class SQLObject
     table = self.table_name
     #only add args on to this if using quesiton mark
     #Can only use question mark in WHERE (for values, not table/col names)
-    DBConnection.execute(<<-SQL)
+    result = DBConnection.execute(<<-SQL)
       SELECT
         #{table}.*
       FROM
         #{table}
     SQL
+
+    parse_all(result)
   end
 
   def self.parse_all(results)
+    objects = []
+    results.each do |result|
+      objects << self.new(result)
+    end
 
+    objects
   end
 
   def self.find(id)
