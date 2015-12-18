@@ -62,6 +62,7 @@ class SQLObject
   def self.parse_all(results)
     objects = []
     results.each do |result|
+      #self is the Class here, since we're in a class method?
       objects << self.new(result)
     end
 
@@ -69,7 +70,24 @@ class SQLObject
   end
 
   def self.find(id)
-    # ...
+    table = self.table_name
+    result = DBConnection.execute(<<-SQL, id)
+      SELECT
+        #{table}.*
+      FROM
+        #{table}
+      WHERE
+        #{table}.id = ?
+    SQL
+
+    #Nicer way to do this?
+    if result.first.nil?
+      return nil
+    else
+      return self.new(result.first)
+    end
+
+
   end
 
   def initialize(params = {})
