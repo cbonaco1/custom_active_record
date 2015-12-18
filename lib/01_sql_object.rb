@@ -81,12 +81,12 @@ class SQLObject
     SQL
 
     #Nicer way to do this?
+    #Only return new object if result from query is not nil
     if result.first.nil?
       return nil
     else
       return self.new(result.first)
     end
-
 
   end
 
@@ -114,18 +114,57 @@ class SQLObject
   end
 
   def attribute_values
-    attributes.values
+    #one attribute short
+    # attributes.values
+
+    self.class.columns.map do |column|
+      self.send(column)
+    end
   end
 
   def insert
-    # ...
+    #self is an instance of class
+    table  = self.class.table_name
+    column_names = self.class.columns.join(", ")
+    num_fields = self.class.columns.length
+    fields = (["?"] * num_fields).join(", ")
+
+    #values = self.attribute_values.join(", ")
+
+    p table
+    p column_names
+    p num_fields
+    p fields
+    #p values
+
+    #SQL log?
+    result = DBConnection.execute(<<-SQL, attribute_values)
+      INSERT INTO
+        #{table} (#{column_names})
+      VALUES
+        (#{fields})
+    SQL
+
+    self.id = DBConnection.last_insert_row_id
   end
 
   def update
-    # ...
+    #self is an instance of class
+    # table  = self.class.table_name
+    # column_list = self.class.columns.map{ |column| "#{column} = ?" }
+    # column_list = column_list.join(", ")
+    #
+    # result = DBConnection.execute(<<-SQL, *values)
+    #   UPDATE
+    #     #{table}
+    #   SET
+    #     #{column_list}
+    #   WHERE
+    #     #{table}.id = ?
+    # SQL
   end
 
   def save
-    # ...
+
   end
 end
