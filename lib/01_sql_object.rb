@@ -4,6 +4,26 @@ require 'active_support/inflector'
 # of this project. It was only a warm up.
 
 class SQLObject
+
+  #Creating a new object:
+  # cat = Cat.new(name: "Gizmo", owner_id: 123)
+  def initialize(params = {})
+    params.each do |column_name, value|
+      column_name = column_name.to_sym
+
+      #throw an error if the column name passed in does not exist
+      #in the table's columns
+      unless self.class.columns.include?(column_name)
+        raise "unknown attribute '#{column_name}'"
+      end
+
+      #set attribute by calling setter using send
+      #call finalize first?
+      self.send("#{column_name}=", value)
+    end
+  end
+
+  #Returns an array of the column names for a table as symbols
   def self.columns
 
     return @columns if @columns
@@ -18,8 +38,17 @@ class SQLObject
     @columns = results.first.map { |column_name| column_name.to_sym  }
   end
 
+  #Class getter/setter methods for table_name
+  def self.table_name=(table_name_in)
+    @table_name = table_name_in
+  end
+
+  def self.table_name
+    @table_name || self.to_s.tableize
+  end
+
+  #creates a setter and getter for each column
   def self.finalize!
-    #adds a setter and getter for each column
     columns.each do |column_name|
       #getter
       define_method("#{column_name}") do
@@ -28,7 +57,6 @@ class SQLObject
       end
 
       #setter
-      #didnt have equal sign on before so it was using getter
       define_method("#{column_name}=") do |arg|
         #set the value at attributes[column_name]
         attributes[column_name] = arg
@@ -36,14 +64,6 @@ class SQLObject
     end
 
   end
-
-  def self.table_name=(table_name_in)
-    @table_name = table_name_in
-  end
-
-  def self.table_name
-    @table_name || to_s.tableize
- end
 
   def self.all
     table = self.table_name
@@ -62,7 +82,7 @@ class SQLObject
   def self.parse_all(results)
     objects = []
     results.each do |result|
-      #self is the Class here, since we're in a class method?
+      #Create new instances of self for each record returned
       objects << self.new(result)
     end
 
@@ -80,7 +100,6 @@ class SQLObject
         #{table}.id = ?
     SQL
 
-    #Nicer way to do this?
     #Only return new object if result from query is not nil
     if result.first.nil?
       return nil
@@ -88,20 +107,6 @@ class SQLObject
       return self.new(result.first)
     end
 
-  end
-
-  def initialize(params = {})
-    params.each do |column_name, value|
-      column_name = column_name.to_sym
-
-      #self is the object we're trying to create?
-      unless self.class.columns.include?(column_name)
-        raise "unknown attribute '#{column_name}'"
-      end
-
-      #set attribute by calling setter using send
-      self.send("#{column_name}=", value)
-    end
   end
 
   def attributes
@@ -122,8 +127,8 @@ class SQLObject
     end
   end
 
+  #Inserting an instance of the class into the database
   def insert
-    #self is an instance of class
     table  = self.class.table_name
     column_names = self.class.columns.join(", ")
     num_fields = self.class.columns.length
@@ -154,8 +159,8 @@ class SQLObject
       id = #{id}
     SQL
 
-    puts update_query
-    p attribute_values
+    # puts update_query
+    # p attribute_values
     result = DBConnection.execute(update_query, attribute_values)
   end
 

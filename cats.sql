@@ -23,21 +23,53 @@ CREATE TABLE houses (
 INSERT INTO
   houses (id, address)
 VALUES
-  (1, "26th and Guerrero"), (2, "Dolores and Market");
+  (1, "26th and Guerrero");
+
+INSERT INTO
+  houses (id, address)
+VALUES
+  (2, "Dolores and Market");
 
 INSERT INTO
   humans (id, fname, lname, house_id)
 VALUES
-  (1, "Devon", "Watts", 1),
-  (2, "Matt", "Rubens", 1),
-  (3, "Ned", "Ruggeri", 2),
+  (1, "Devon", "Watts", 1);
+  INSERT INTO
+    humans (id, fname, lname, house_id)
+  VALUES
+  (2, "Matt", "Rubens", 1);
+
+  INSERT INTO
+    humans (id, fname, lname, house_id)
+  VALUES
+  (3, "Ned", "Ruggeri", 2);
+
+  INSERT INTO
+    humans (id, fname, lname, house_id)
+  VALUES
   (4, "Catless", "Human", NULL);
 
 INSERT INTO
   cats (id, name, owner_id)
 VALUES
-  (1, "Breakfast", 1),
-  (2, "Earl", 2),
-  (3, "Haskell", 3),
-  (4, "Markov", 3),
+  (1, "Breakfast", 1);
+
+  INSERT INTO
+    cats (id, name, owner_id)
+  VALUES
+  (2, "Earl", 2);
+
+  INSERT INTO
+    cats (id, name, owner_id)
+  VALUES
+  (3, "Haskell", 3);
+
+  INSERT INTO
+    cats (id, name, owner_id)
+  VALUES
+  (4, "Markov", 3);
+
+  INSERT INTO
+    cats (id, name, owner_id)
+  VALUES  
   (5, "Stray Cat", NULL);
