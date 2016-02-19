@@ -26,10 +26,7 @@ class BelongsToOptions < AssocOptions
       :class_name => name.to_s.camelcase
     }
 
-    # @foreign_key = options[:foreign_key]
-    # @primary_key = options[:primary_key]
-    # @class_name = options[:class_name]
-
+    #make the keys in the options hash methods
     default_options.keys.each do |key|
       self.send("#{key}=", options[key] || default_options[key])
     end
@@ -44,12 +41,7 @@ class HasManyOptions < AssocOptions
       :class_name => name.to_s.camelcase.singularize
     }
 
-    # These are going to be methods, not instance variables
-    # @foreign_key = options[:foreign_key]
-    # @primary_key = options[:primary_key]
-    # @class_name = options[:class_name]
-
-    # why is this send and not define_method?
+    #make the keys in the options hash methods
     default_options.keys.each do |key|
       self.send("#{key}=", options[key] || default_options[key])
     end
@@ -58,9 +50,7 @@ class HasManyOptions < AssocOptions
 end
 
 module Associatable
-
-  #THESE ARE ALL CLASS METHODS
-
+  
   def belongs_to(name, options = {})
     #Sets up the options
     self.assoc_options[name] = BelongsToOptions.new(name, options)

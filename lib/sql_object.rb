@@ -7,7 +7,7 @@ class SQLObject
   extend Searchable
 
   #Creating a new object:
-  # cat = Cat.new(name: "Gizmo", owner_id: 123)
+  # track = Track.new(name: "Brown Sugar", album_id: 2)
   def initialize(params = {})
     params.each do |column_name, value|
       column_name = column_name.to_sym
@@ -138,7 +138,6 @@ class SQLObject
   end
 
   def update
-    #self is an instance of class
     table  = self.class.table_name
     column_list = self.class.columns.map{ |column| "#{column} = ?" }
     column_list = column_list.join(", ")
@@ -152,8 +151,6 @@ class SQLObject
       id = #{id}
     SQL
 
-    # puts update_query
-    # p attribute_values
     result = DBConnection.execute(update_query, attribute_values)
   end
 

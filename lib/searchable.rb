@@ -3,7 +3,7 @@ require_relative 'sql_object'
 
 module Searchable
 
-  # haskell_cats = Cat.where(:name => "Haskell", :color => "calico")
+  # rolling_stones = Band.where(:name => "The Rolling Stones")
   def where(params)
     table = self.table_name
     column_names = params.keys.map { |column| "#{column} = ?"  }.join(" AND ")

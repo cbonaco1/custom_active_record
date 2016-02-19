@@ -8,3 +8,8 @@ class Album < SQLObject
 end
 
 Album.finalize!
+
+Album.belongs_to("band")
+
+sticky_fingers = Album.find(1)
+puts sticky_fingers.band
