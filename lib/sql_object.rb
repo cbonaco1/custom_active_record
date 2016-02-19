@@ -1,9 +1,10 @@
+require_relative 'searchable'
 require_relative 'db_connection'
+require_relative 'associatable'
 require 'active_support/inflector'
-# NB: the attr_accessor we wrote in phase 0 is NOT used in the rest
-# of this project. It was only a warm up.
 
 class SQLObject
+  extend Searchable
 
   #Creating a new object:
   # cat = Cat.new(name: "Gizmo", owner_id: 123)
@@ -18,7 +19,6 @@ class SQLObject
       end
 
       #set attribute by calling setter using send
-      #call finalize first?
       self.send("#{column_name}=", value)
     end
   end
@@ -26,9 +26,10 @@ class SQLObject
   #Returns an array of the column names for a table as symbols
   def self.columns
 
+    #This only allows the query to be run once
+    #If we've retrieved the columns already, dont run query again
     return @columns if @columns
 
-    #get the column names and put them in an array
     column_names = []
     results = DBConnection.execute2(<<-SQL)
       SELECT * FROM #{table_name}
@@ -111,17 +112,9 @@ class SQLObject
 
   def attributes
     @attributes || @attributes = {}
-    # if @attributes
-    #   @attributes
-    # else
-    #   @attributes = {}
-    # end
   end
 
   def attribute_values
-    #one attribute short
-    # attributes.values
-
     self.class.columns.map do |column|
       self.send(column)
     end
