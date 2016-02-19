@@ -5,6 +5,7 @@ require 'active_support/inflector'
 
 class SQLObject
   extend Searchable
+  extend Associatable
 
   #Creating a new object:
   # track = Track.new(name: "Brown Sugar", album_id: 2)

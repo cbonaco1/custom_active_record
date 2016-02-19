@@ -22,13 +22,15 @@ CREATE TABLE tracks (
 INSERT INTO bands (id, name) VALUES (1, "The Rolling Stones");
 INSERT INTO bands (id, name) VALUES (2, "The Black Keys");
 INSERT INTO bands (id, name) VALUES (3, "The Beatles");
+INSERT INTO bands (id, name) VALUES (4, "Struggling Band");
 
 INSERT INTO albums (id, name, band_id) VALUES (1, "Sticky Fingers", 1);
-INSERT INTO albums (id, name, band_id) VALUES (2, "Greatest Hits", 2);
-INSERT INTO albums (id, name, band_id) VALUES (3, "El Camino", 3);
+INSERT INTO albums (id, name, band_id) VALUES (2, "Revolver", 3);
+INSERT INTO albums (id, name, band_id) VALUES (3, "Greatest Hits", 3);
+INSERT INTO albums (id, name, band_id) VALUES (4, "El Camino", 2);
 
-INSERT INTO tracks (name, album_id) VALUES ("Sympathy with the Devil", 1);
-INSERT INTO tracks (name, album_id) VALUES ("Gimme Shelter", 1);
-INSERT INTO tracks (name, album_id) VALUES ("Can't always get what you want", 1);
-INSERT INTO tracks (name, album_id) VALUES ("Lonely Boy", 2);
-INSERT INTO tracks (name, album_id) VALUES ("Tighten Up", 2);
+INSERT INTO tracks (id, name, album_id) VALUES (1, "Sympathy for the Devil", 1);
+INSERT INTO tracks (id, name, album_id) VALUES (2, "Gimme Shelter", 1);
+INSERT INTO tracks (id, name, album_id) VALUES (3, "Can't always get what you want", 1);
+INSERT INTO tracks (id, name, album_id) VALUES (4, "Lonely Boy", 2);
+INSERT INTO tracks (id, name, album_id) VALUES (5, "Tighten Up", 2);
