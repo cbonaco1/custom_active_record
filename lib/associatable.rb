@@ -50,12 +50,10 @@ class HasManyOptions < AssocOptions
 end
 
 module Associatable
-  
+
   def belongs_to(name, options = {})
-    #Sets up the options
     self.assoc_options[name] = BelongsToOptions.new(name, options)
 
-    #creates method
     define_method(name) do
       options = self.class.assoc_options[name]
       foreign_key_value = self.send(options.foreign_key)
