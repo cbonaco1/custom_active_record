@@ -18,11 +18,17 @@ Installs the required gems
 Loads the music inventory SQLite database
 
 In the `/lib` folder, there are several different files which provide the functionality of the ORM:
-* `searchable.rb` - implements basic SQL query clauses such as `where`
-* `associatable.rb` - implements associations `has_many`, `belongs_to`, and `has_one_through`
-* `db_connection.rb` - contains logic for making a connection to the database and executing queries
-* `sql_object.rb` - this class extends both `Searchable` and `Associatable` modules, and methods
-written in this class represent the main features of the ORM.
+* `searchable.rb`
+..Implements basic SQL query clauses such as `where`
+* `associatable.rb`
+..Implements associations `has_many`, `belongs_to`, and `has_one_through`
+* `db_connection.rb`
+..Contains logic for making a connection to the database and executing queries
+* `sql_object.rb`
+..This class extends both `Searchable` and `Associatable` modules, and
+contains logic for the main features of the ORM. For example,
+the `::all` method will make a connection to the database using a db_connection object,
+and execute a query to select all from the receiver, which is the name of the table to query.
 
 ### Testing
 Using RSpec, I developed a suite of tests which test the features of the ORM.
