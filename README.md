@@ -20,19 +20,18 @@ Loads the music inventory SQLite database
 In the `/lib` folder, there are several different files which provide the functionality of the ORM:
 * `searchable.rb`
 
-⋅⋅⋅You can have properly indented paragraphs within list items.
-⋅⋅⋅To have a line break without a paragraph, you will need to use two trailing spaces.⋅⋅
-...Implements basic SQL query clauses such as `where`  
-...Example:  
-...`Band.where(:name => "The Rolling Stones")`
+  Implements basic SQL query clauses such as `where`  
+  Example:  
+  `Band.where(:name => "The Rolling Stones")`
 * `associatable.rb`
 
-   Implements associations `has_many`, `belongs_to`, and `has_one_through`
-   For example, a `Band has_many Albums`, an `Album belongs_to a Band`, and a `Track has_one Band through Album`
+  Implements associations `has_many`, `belongs_to`, and `has_one_through`  
+  For example, a `Band has_many Albums`, an `Album belongs_to a Band`, and a `Track has_one Band through Album`
 * `db_connection.rb`
 
-   Contains logic for making a connection to the database and executing queries
+  Contains logic for making a connection to the database and executing queries
 * `sql_object.rb`
+
   This class extends both `Searchable` and `Associatable` modules, and
    contains logic for the main features of the ORM. For example,
     the `::all` method will make a connection to the database using a db_connection object,
