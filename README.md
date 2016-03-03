@@ -31,7 +31,7 @@ In the `/lib` folder, there are several different files which provide the functi
 
    Contains logic for making a connection to the database and executing queries
 * `sql_object.rb`
-   This class extends both `Searchable` and `Associatable` modules, and
+  This class extends both `Searchable` and `Associatable` modules, and
    contains logic for the main features of the ORM. For example,
     the `::all` method will make a connection to the database using a db_connection object,
     and execute a query to select all from the receiver, which is the name of the table to query.
