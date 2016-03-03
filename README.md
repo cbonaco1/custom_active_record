@@ -20,9 +20,11 @@ Loads the music inventory SQLite database
 In the `/lib` folder, there are several different files which provide the functionality of the ORM:
 * `searchable.rb`
 
-   Implements basic SQL query clauses such as `where`
-   Example:
-   `Band.where(:name => "The Rolling Stones")`
+⋅⋅⋅You can have properly indented paragraphs within list items.
+⋅⋅⋅To have a line break without a paragraph, you will need to use two trailing spaces.⋅⋅
+...Implements basic SQL query clauses such as `where`  
+...Example:  
+...`Band.where(:name => "The Rolling Stones")`
 * `associatable.rb`
 
    Implements associations `has_many`, `belongs_to`, and `has_one_through`
