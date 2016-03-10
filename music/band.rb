@@ -11,6 +11,6 @@ end
 
 Band.finalize!
 
-# led_zepplin = Band.new({name: "Led Zepplin"})
+led_zepplin = Band.new({name: "Led Zepplin"})
 p Band.all
-# puts Band.where({name: "The Beatles"})
+puts Band.where({name: "The Beatles"})

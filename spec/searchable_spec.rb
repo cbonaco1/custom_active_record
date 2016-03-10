@@ -1,4 +1,3 @@
-# require 'searchable'
 require 'sql_object'
 
 describe 'Searchable' do
